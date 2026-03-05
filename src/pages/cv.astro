@@ -1,0 +1,308 @@
+---
+// src/pages/cv.astro
+// CV de José Antonio Chi May - Diseño Sidebar Azul Navy
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV Profesional - José Antonio Chi May</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        /* NUEVA PALETA DE COLORES: AZUL NAVY */
+        --sidebar-bg: #1e3a8a; /* Azul Navy clásico y elegante */
+        --sidebar-text: #e0e7ff; /* Azul muy clarito para el texto, mejora la lectura */
+        --sidebar-heading: #ffffff; /* Blanco puro para títulos en sidebar */
+        
+        --main-bg: #ffffff;
+        --main-text: #334155;
+        --main-heading: #1e3a8a; /* Ahora los títulos de la derecha combinan con la barra */
+        --accent-blue: #3b82f6; /* Azul brillante para iconos y acentos */
+        
+        /* Ajuste para habilidades en fondo navy */
+        --skill-bg-dark: rgba(255, 255, 255, 0.15); /* Fondo translúcido elegante */
+        --skill-text-dark: #ffffff; 
+        
+        --font-headings: 'Montserrat', sans-serif;
+        --font-body: 'Open Sans', sans-serif;
+      }
+      
+      body { 
+        font-family: var(--font-body); 
+        background-color: #f1f5f9; 
+        margin: 0; 
+        padding: 40px 10px; 
+        line-height: 1.6;
+        font-size: 16px; 
+      }
+      
+      /* Contenedor principal */
+      .cv-container { 
+        max-width: 1050px; 
+        margin: 0 auto; 
+        background-color: var(--main-bg); 
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); 
+        border-radius: 12px;
+        display: grid; 
+        grid-template-columns: 340px 1fr; 
+        min-height: 100vh;
+        overflow: hidden; 
+      }
+
+      /* ================= COLUMNA IZQUIERDA (NAVY) ================= */
+      .left-col { 
+        background-color: var(--sidebar-bg); 
+        color: var(--sidebar-text); 
+        padding: 60px 45px; 
+        display: flex; 
+        flex-direction: column; 
+        gap: 45px; 
+      }
+
+      /* FOTO OVALADA */
+      .photo-container {
+        text-align: center;
+        margin-bottom: -15px;
+      }
+      .profile-photo { 
+        width: 160px; 
+        height: 200px; 
+        border-radius: 50%; 
+        object-fit: cover; 
+        border: 4px solid var(--sidebar-bg);
+        outline: 3px solid #60a5fa; /* Borde azul más claro que resalta en el navy */
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      }
+
+      .left-col h2 { 
+        color: var(--sidebar-heading); 
+        font-family: var(--font-headings);
+        font-size: 1.15rem;
+        text-transform: uppercase; 
+        letter-spacing: 2px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2); /* Línea divisoria más suave */
+        padding-bottom: 8px;
+        margin-bottom: 25px;
+        margin-top: 0;
+      }
+
+      .contact-item { margin-bottom: 15px; font-size: 0.95rem; display: flex; align-items: center; gap: 12px; }
+      .contact-icon { color: #93c5fd; width: 18px; text-align: center; font-style: normal;}
+      
+      /* Habilidades */
+      .skills-container { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 10px; margin-bottom: 20px;}
+      .skill-tag { 
+        background-color: var(--skill-bg-dark); 
+        color: var(--skill-text-dark); 
+        padding: 7px 15px; 
+        border-radius: 20px; 
+        font-size: 0.85rem; 
+        font-weight: 600; 
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(4px); /* Efecto moderno */
+      }
+
+      .left-col h3 { color: var(--sidebar-heading); font-size: 1.1rem; margin: 0 0 6px 0; font-weight: 700; }
+      .left-col p { margin: 0; font-size: 0.95rem; }
+      .left-col .date { display: block; font-size: 0.85rem; color: #93c5fd; font-weight: 600; margin-top: 4px; margin-bottom: 22px;}
+
+
+      /* ================= COLUMNA DERECHA (BLANCA) ================= */
+      .right-col { 
+        padding: 70px 60px; 
+        display: flex; 
+        flex-direction: column; 
+        gap: 40px; 
+      }
+
+      h1 { 
+        font-family: var(--font-headings); 
+        font-size: 3.5rem; 
+        font-weight: 800;
+        color: var(--main-heading); 
+        margin: 0; 
+        line-height: 0.95; 
+        letter-spacing: -2px;
+      }
+      
+      .subtitle { 
+        font-size: 1.3rem; 
+        font-weight: 600; 
+        color: var(--accent-blue); 
+        display: block; 
+        margin-top: 12px;
+        margin-bottom: 25px;
+      }
+
+      .summary-text { 
+        font-size: 1.05rem; 
+        line-height: 1.75; 
+        color: var(--main-text); 
+        margin: 0;
+      }
+
+      .right-col h2 { 
+        font-family: var(--font-headings);
+        font-size: 1.45rem; 
+        color: var(--main-heading); 
+        text-transform: uppercase; 
+        letter-spacing: 1px; 
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+        margin-top: 0;
+      }
+      
+      .right-col h2::after {
+        content: "";
+        flex: 1;
+        height: 2px;
+        background-color: #e2e8f0;
+        margin-left: 20px;
+      }
+
+      .job-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+      .right-col h3 { font-size: 1.3rem; color: var(--main-heading); margin: 0; font-weight: 700;}
+      .right-col .date { font-size: 0.95rem; color: #64748b; font-weight: 600; }
+      
+      ul { margin: 0; padding-left: 20px; color: var(--main-text); }
+      li { margin-bottom: 10px; font-size: 1rem; line-height: 1.6;}
+      strong { color: var(--main-heading); font-weight: 600;}
+
+      /* ================= IMPRESIÓN / PDF ================= */
+      @media print {
+        body { background: white; padding: 0; }
+        .cv-container { box-shadow: none; max-width: 100%; min-height: 100%; border-radius: 0;}
+        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        .left-col { padding: 50px 35px; }
+        .right-col { padding: 50px 50px; }
+        h1 { font-size: 3rem; }
+      }
+      
+      /* ================= RESPONSIVE MÓVIL ================= */
+      @media (max-width: 900px) {
+        .cv-container { grid-template-columns: 1fr; }
+        .left-col { padding: 50px 30px; }
+        .right-col { padding: 50px 30px; }
+        .job-header { flex-direction: column; gap: 3px;}
+        .profile-photo { width: 140px; height: 175px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cv-container">
+      
+      <aside class="left-col">
+        
+        <div class="photo-container">
+          <img src="/assets/fotocv.png" alt="José Antonio Chi May" class="profile-photo" />
+        </div>
+
+        <section>
+          <h2>Contacto</h2>
+          <div class="contact-item"><i class="contact-icon">📍</i> Mérida, Yucatán, México</div>
+          <div class="contact-item"><i class="contact-icon">📱</i> [Tu Teléfono]</div>
+          <div class="contact-item"><i class="contact-icon">✉️</i> [Tu Correo]</div>
+          <div class="contact-item"><i class="contact-icon">🔗</i> linkedin.com/in/jose-antonio-chi-may</div>
+          <div class="contact-item"><i class="contact-icon">💻</i> [Tu URL de Portafolio]</div>
+        </section>
+        
+        <section>
+          <h2>Habilidades</h2>
+          <p><strong>Frontend</strong></p>
+          <div class="skills-container">
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Astro.js</span>
+            <span class="skill-tag">HTML5 / CSS3</span>
+            <span class="skill-tag">JavaScript / TS</span>
+          </div>
+          
+          <p><strong>Backend</strong></p>
+          <div class="skills-container">
+            <span class="skill-tag">Java (Spring Boot)</span>
+            <span class="skill-tag">Java MVC</span>
+            <span class="skill-tag">C# / .NET</span>
+            <span class="skill-tag">PHP</span>
+          </div>
+          
+          <p><strong>Bases de Datos & IA</strong></p>
+          <div class="skills-container">
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">SQL Server</span>
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">LLMs (IA)</span>
+            <span class="skill-tag">Prompt Eng.</span>
+          </div>
+        </section>
+        
+        <section>
+          <h2>Educación</h2>
+          <div>
+            <h3>Ingeniería en Sistemas Computacionales</h3>
+            <p>Instituto Tecnológico de Mérida</p>
+            <span class="date">Ago. 2016 – Jul. 2022</span>
+          </div>
+          <div>
+            <h3>Ingeniería de LLM: Domina IA</h3>
+            <p>Udemy</p>
+            <span class="date">Feb. 2026</span>
+          </div>
+          <div>
+            <h3>React & Spring Boot Full Stack</h3>
+            <p>Udemy</p>
+            <span class="date">Ene. 2025</span>
+          </div>
+        </section>
+      </aside>
+
+      <main class="right-col">
+        
+        <header>
+          <h1>JOSÉ ANTONIO <br/> CHI MAY</h1>
+          <span class="subtitle">Software Engineer | Full Stack Java & React | AI Developer</span>
+          <p class="summary-text">Ingeniero de Software con experiencia sólida en garantizar la estabilidad de sistemas y el desarrollo de aplicaciones web full-stack. Especializado en la creación y migración de soluciones robustas utilizando <strong>Java (Spring Boot) y React</strong>. Apasionado por la innovación tecnológica y la optimización de procesos, actualmente ampliando mis capacidades en Ingeniería de LLMs y desarrollo con Inteligencia Artificial.</p>
+        </header>
+
+        <section>
+          <h2>Experiencia Profesional</h2>
+          
+          <div style="margin-bottom: 35px;">
+            <div class="job-header">
+              <h3>Ingeniero en Operaciones TI - Productos de Harina</h3>
+              <span class="date">Mar. 2023 – Actualidad</span>
+            </div>
+            <ul>
+              <li>Garantizo la estabilidad, eficiencia y continuidad de los sistemas tecnológicos, participando activamente en procesos de modernización.</li>
+              <li><strong>Módulo ADV Web:</strong> Desarrollé y mantengo un módulo para la generación de reportes (arquitectura MVC) utilizando <strong>Java, Maven y PostgreSQL</strong>.</li>
+              <li><strong>Migración del Sistema de Envíos:</strong> Lideré la participación en la migración del sistema hacia nuevas tecnologías (<strong>C#, .NET, AJAX, FastReport, SQL Server</strong>), mejorando significativamente el rendimiento.</li>
+            </ul>
+          </div>
+
+          <div style="margin-bottom: 35px;">
+            <div class="job-header">
+              <h3>Programador Java Jr & Residente - EFISYS</h3>
+              <span class="date">Ene. 2022 – Sept. 2022</span>
+            </div>
+            <ul>
+              <li>Participé en el desarrollo y análisis de software orientado a la eficiencia financiera.</li>
+              <li>Implementé soluciones utilizando <strong>Java 1.8 y programación orientada a objetos (POO)</strong>.</li>
+              <li>Gestioné bases de datos estructuradas con <strong>MySQL</strong>.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section>
+          <h2>Proyectos Destacados</h2>
+          <ul>
+            <li><strong>E-commerce "Algorithm":</strong> Desarrollo de una plataforma de comercio electrónico independiente construida con <strong>React</strong> en el frontend y <strong>Spring Boot (Java)</strong> en el backend.</li>
+            <li><strong>Portafolio Web Profesional:</strong> Creación de este sitio web moderno y optimizado utilizando <strong>Astro.js y React</strong>.</li>
+          </ul>
+        </section>
+        
+      </main>
+
+    </div>
+  </body>
+</html>

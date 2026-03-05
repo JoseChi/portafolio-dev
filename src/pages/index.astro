@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.tsx';
+import Experience from '../components/Experience.astro';
+import Projects from '../components/Projects.astro';
+import Education from '../components/Education.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Jose Antonio Chi May | Software Engineer & AI Developer">
+	<main>
+		<Hero client:load />
+		<Experience />
+		<Projects />
+		<Education />
+		<Contact />
+	</main>
+	<Footer />
+</Layout>
