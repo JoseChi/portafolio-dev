@@ -89,13 +89,13 @@ export default function AIChatbot() {
         <>
             {/* Chat Window */}
             {isOpen && (
-                <div className="fixed bottom-24 right-6 z-50 w-[90vw] sm:w-[450px] h-[650px] max-h-[calc(100vh-8rem)] bg-slate-900 border border-indigo-500/50 rounded-xl flex flex-col shadow-[0_0_30px_rgba(99,102,241,0.2)] overflow-hidden animate-fade-in-up">
+                <div className="fixed bottom-24 right-6 z-50 w-[90vw] sm:w-[450px] h-[650px] max-h-[calc(100vh-8rem)] bg-slate-900 border border-sky-500/50 rounded-xl flex flex-col shadow-[0_0_20px_rgba(56,189,248,0.8)] overflow-hidden animate-fade-in-up">
                     {/* Header */}
-                    <div className="bg-slate-800 border-b border-indigo-500/30 p-4 flex justify-between items-center">
+                    <div className="bg-slate-800 border-b border-sky-500/30 p-4 flex justify-between items-center">
                         <div className="flex items-center gap-2">
                             <span className="relative flex h-3 w-3">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
                             </span>
                             <h3 className="font-bold text-slate-100 text-sm">Habla con mi Agente de IA</h3>
                         </div>
@@ -113,7 +113,7 @@ export default function AIChatbot() {
                             <div
                                 key={index}
                                 className={`p-3 rounded-2xl text-sm max-w-[85%] leading-relaxed shadow-sm ${msg.role === 'user'
-                                    ? 'bg-indigo-600 text-white rounded-tr-sm self-end'
+                                    ? 'bg-blue-600 text-white rounded-tr-sm self-end'
                                     : 'bg-slate-800 text-slate-200 border border-slate-700/50 rounded-tl-sm self-start'
                                     }`}
                             >
@@ -126,7 +126,7 @@ export default function AIChatbot() {
                                     <button
                                         key={i}
                                         onClick={() => handleSuggestedClick(q)}
-                                        className="bg-slate-800 border border-indigo-500/30 text-indigo-300 hover:bg-indigo-600 hover:text-white hover:border-indigo-400 rounded-full py-3 px-4 text-center w-full text-sm font-medium cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md"
+                                        className="bg-slate-800 border border-sky-500/30 text-sky-300 hover:bg-blue-600 hover:text-white hover:border-sky-400 rounded-full py-3 px-4 text-center w-full text-sm font-medium cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md"
                                     >
                                         {q}
                                     </button>
@@ -142,19 +142,19 @@ export default function AIChatbot() {
                     </div>
 
                     {/* Input Area */}
-                    <form onSubmit={sendMessage} className="p-3 border-t border-indigo-500/30 bg-slate-800 flex gap-2">
+                    <form onSubmit={sendMessage} className="p-3 border-t border-sky-500/30 bg-slate-800 flex gap-2">
                         <input
                             type="text"
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             disabled={isLoading}
                             placeholder="Escribe un mensaje..."
-                            className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all placeholder:text-slate-500 disabled:opacity-50"
+                            className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all placeholder:text-slate-500 disabled:opacity-50"
                         />
                         <button
                             type="submit"
                             disabled={isLoading || !input.trim()}
-                            className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-lg flex items-center justify-center transition-colors shadow-md disabled:bg-slate-700 disabled:text-slate-400 disabled:cursor-not-allowed"
+                            className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded-lg flex items-center justify-center transition-colors shadow-md disabled:bg-slate-700 disabled:text-slate-400 disabled:cursor-not-allowed"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
                         </button>
@@ -165,7 +165,7 @@ export default function AIChatbot() {
             {/* Callout Bubble (Visible when closed) */}
             {!isOpen && (
                 <div className="fixed bottom-24 right-10 z-50 animate-float">
-                    <div className="bg-indigo-600 text-white text-sm font-medium px-4 py-3 rounded-2xl rounded-br-sm shadow-[0_4px_20px_rgba(99,102,241,0.4)] border border-indigo-500/50 whitespace-nowrap">
+                    <div className="bg-blue-600 text-white text-sm font-medium px-4 py-3 rounded-2xl rounded-br-sm shadow-[0_4px_20px_rgba(56,189,248,0.4)] border border-sky-500/50 whitespace-nowrap">
                         ¡Hola! 👋 Soy la IA de José. ¿Hablamos?
                     </div>
                 </div>
@@ -174,7 +174,7 @@ export default function AIChatbot() {
             {/* Floating Toggle Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-[0_0_15px_rgba(99,102,241,0.5)] transition-all duration-300 hover:scale-110 flex items-center justify-center animate-float ${isOpen ? 'bg-slate-800 border border-indigo-500 text-indigo-400 hover:bg-slate-700' : 'bg-indigo-600 text-white hover:bg-indigo-500 hover:shadow-[0_0_25px_rgba(99,102,241,0.6)]'}`}
+                className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-[0_0_20px_rgba(56,189,248,0.8)] transition-all duration-300 hover:scale-110 flex items-center justify-center animate-float ${isOpen ? 'bg-slate-800 border border-sky-500 text-sky-400 hover:bg-slate-700' : 'bg-blue-600 text-white hover:bg-blue-500 hover:shadow-[0_0_25px_rgba(56,189,248,0.6)]'}`}
             >
                 {isOpen ? (
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>

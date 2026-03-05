@@ -1,6 +1,6 @@
 ---
-import '../styles/global.css';
-import AIChatbot from '../components/AIChatbot.tsx';
+import "../styles/global.css";
+import AIChatbot from "../components/AIChatbot.tsx";
 
 interface Props {
   title: string;
@@ -9,25 +9,30 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es" class="dark scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
   </head>
-  <body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-indigo-500/30 font-sans antialiased">
+  <body
+    class="bg-slate-950 text-slate-100 min-h-screen selection:bg-sky-500/30 font-sans antialiased"
+  >
     <slot />
     <script>
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-          }
-        });
-      }, { threshold: 0.1 });
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("active");
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
 
-      const hiddenElements = document.querySelectorAll('.reveal');
+      const hiddenElements = document.querySelectorAll(".reveal");
       hiddenElements.forEach((el) => observer.observe(el));
     </script>
     <AIChatbot client:load />

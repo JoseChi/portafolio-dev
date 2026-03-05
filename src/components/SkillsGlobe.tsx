@@ -33,7 +33,7 @@ export default function SkillsGlobe() {
         <div className="flex justify-center items-center w-full min-h-[500px] overflow-visible">
             <div
                 ref={containerRef}
-                className="text-indigo-400 font-bold text-lg cursor-pointer mx-auto flex items-center justify-center p-4 bg-transparent"
+                className="text-sky-400 font-bold text-lg cursor-pointer mx-auto flex items-center justify-center p-4 bg-transparent"
             ></div>
         </div>
     );
