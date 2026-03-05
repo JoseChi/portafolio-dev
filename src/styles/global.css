@@ -63,7 +63,7 @@ html {
     50% {
         opacity: 0.8;
         filter: brightness(1.2);
-        box-shadow: 0 0 40px rgba(96, 165, 250, 0.7), 0 0 80px rgba(168, 85, 247, 0.6);
+        box-shadow: 0 0 40px rgba(56, 189, 248, 0.7), 0 0 80px rgba(52, 211, 153, 0.6);
     }
 }
 
@@ -84,14 +84,14 @@ html {
 
 /* TagCloud Styles */
 .tagcloud--item {
-    color: #818cf8;
-    /* text-indigo-400 */
+    color: #38bdf8;
+    /* text-sky-400 */
     cursor: pointer;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .tagcloud--item:hover {
-    color: #c084fc;
-    /* text-purple-400 */
+    color: #34d399;
+    /* text-emerald-400 */
     font-weight: bold;
 }
