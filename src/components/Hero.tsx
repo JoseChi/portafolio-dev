@@ -1,6 +1,9 @@
 import React from 'react';
+import { ui, defaultLang } from '../i18n/ui';
 
-export default function Hero() {
+export default function Hero({ lang = defaultLang }: { lang?: 'es' | 'en' }) {
+    const t = (key: keyof typeof ui[typeof defaultLang]) => ui[lang][key] || ui[defaultLang][key];
+
     return (
         <section className="relative overflow-hidden flex flex-col justify-center min-h-[80vh] px-6 sm:px-12 md:px-24">
             {/* Background patterns */}
@@ -16,7 +19,7 @@ export default function Hero() {
                 {/* Left Column (Text) */}
                 <div className="order-2 lg:order-1 flex flex-col justify-center">
                     <h2 className="text-sky-400 font-medium tracking-wider uppercase mb-5 text-sm sm:text-base animate-fade-in-up">
-                        Hola, mi nombre es
+                        {t('hero.greeting')}
                     </h2>
 
                     <h1 className="text-6xl md:text-7xl font-bold tracking-tight mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-500 leading-[1.1] pb-2">
@@ -24,14 +27,16 @@ export default function Hero() {
                     </h1>
 
                     <p className="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-300 mb-8 leading-tight">
-                        Software Engineer <span className="text-sky-500 mx-2">|</span>
-                        <span className="inline-block">Full Stack Java & React</span> <span className="text-emerald-500 mx-2">|</span>
-                        <span className="inline-block">AI Developer</span>
+                        {t('hero.role').split('|').map((part, index) => (
+                            <React.Fragment key={index}>
+                                <span className={index === 1 ? "inline-block" : ""}>{part.trim()}</span>
+                                {index < 2 && <span className={index === 0 ? "text-sky-500 mx-2" : "text-emerald-500 mx-2"}>|</span>}
+                            </React.Fragment>
+                        ))}
                     </p>
 
                     <p className="text-slate-400 text-lg sm:text-xl max-w-2xl leading-relaxed mb-10">
-                        Construyo soluciones digitales innovadoras con un enfoque en el rendimiento,
-                        la escalabilidad y la creación de experiencias de usuario excepcionales.
+                        {t('hero.description')}
                     </p>
 
                     <div className="flex gap-6 mb-8 mt-2">
@@ -49,10 +54,10 @@ export default function Hero() {
 
                     <div className="flex flex-wrap gap-4">
                         <a href="#proyectos" className="px-8 py-3 rounded-full bg-sky-600 hover:bg-sky-500 text-white font-medium transition-all shadow-md hover:shadow-lg hover:shadow-sky-500/50 hover:-translate-y-0.5 inline-block text-center">
-                            Ver Proyectos
+                            {t('nav.projects')}
                         </a>
                         <a href="/CV_Jose_Antonio_Chi.pdf" target="_blank" rel="noopener noreferrer" className="px-8 py-3 rounded-full bg-slate-800 hover:bg-slate-700 text-white font-medium border border-slate-700 transition-all shadow-md hover:shadow-lg hover:shadow-slate-700/50 hover:-translate-y-0.5 inline-block text-center">
-                            Descargar CV
+                            {t('nav.cv')}
                         </a>
                     </div>
                 </div>

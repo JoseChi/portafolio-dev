@@ -1,5 +1,9 @@
 ---
 import { getCollection } from "astro:content";
+import { getLangFromUrl, useTranslations } from "../i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const experiences = await getCollection("experience");
 const sortedExperiences = experiences.sort(
@@ -12,13 +16,41 @@ const sortedExperiences = experiences.sort(
     <h2
       class="text-3xl md:text-4xl font-bold mb-12 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-500"
     >
-      Experiencia Profesional
+      {t("experience.title")}
     </h2>
 
     <div class="relative border-l-2 border-slate-700 ml-4 md:ml-6 space-y-12">
       {
         sortedExperiences.map(async (exp) => {
           const { Content } = await exp.render();
+          const isDonde = exp.id.includes("donde");
+          const isEfisys = exp.id.includes("efisys");
+
+          const role =
+            lang === "en" && isDonde
+              ? t("experience.donde.role")
+              : lang === "en" && isEfisys
+                ? t("experience.efisys.role")
+                : exp.data.role;
+          const company =
+            lang === "en" && isDonde
+              ? t("experience.donde.company")
+              : lang === "en" && isEfisys
+                ? t("experience.efisys.company")
+                : exp.data.company;
+          const period =
+            lang === "en" && isDonde
+              ? t("experience.donde.period")
+              : lang === "en" && isEfisys
+                ? t("experience.efisys.period")
+                : exp.data.period;
+          const desc =
+            lang === "en" && isDonde
+              ? t("experience.donde.desc")
+              : lang === "en" && isEfisys
+                ? t("experience.efisys.desc")
+                : null;
+
           return (
             <div class="relative pl-8 md:pl-10">
               {/* Timeline dot */}
@@ -28,19 +60,19 @@ const sortedExperiences = experiences.sort(
               <div class="bg-slate-800/40 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 sm:p-8 hover:bg-slate-800/60 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] shadow-lg hover:shadow-sky-500/20 hover:border-sky-500/50 group">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
                   <h3 class="text-xl sm:text-2xl font-bold text-slate-100 group-hover:text-sky-300 transition-colors">
-                    {exp.data.role}
+                    {role}
                   </h3>
                   <span class="text-sm font-medium text-sky-400 bg-sky-500/10 px-3 py-1 rounded-full shrink-0 border border-sky-500/20">
-                    {exp.data.period}
+                    {period}
                   </span>
                 </div>
 
                 <h4 class="text-lg font-medium text-emerald-400 mb-4">
-                  {exp.data.company}
+                  {company}
                 </h4>
 
                 <div class="text-slate-300 text-base leading-relaxed">
-                  <Content />
+                  {desc ? <p>{desc}</p> : <Content />}
                 </div>
               </div>
             </div>

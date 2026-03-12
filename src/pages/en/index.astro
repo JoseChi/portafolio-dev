@@ -1,0 +1,28 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Hero from "../../components/Hero.tsx";
+import Experience from "../../components/Experience.astro";
+import Projects from "../../components/Projects.astro";
+import Education from "../../components/Education.astro";
+import Contact from "../../components/Contact.astro";
+import Footer from "../../components/Footer.astro";
+import { getLangFromUrl } from "../../i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const description =
+    "Explore my portfolio. I am Jose Antonio Chi May, a Full Stack Software Engineer and AI Developer with experience in Java, React, and scalable architectures.";
+---
+
+<Layout
+    title="Jose Antonio Chi May | Software Engineer & AI Developer"
+    description={description}
+>
+    <main>
+        <Hero lang={lang} client:load />
+        <Experience />
+        <Projects />
+        <Education />
+        <Contact />
+    </main>
+    <Footer />
+</Layout>

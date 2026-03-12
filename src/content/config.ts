@@ -16,6 +16,8 @@ const projectsCollection = defineCollection({
         title: z.string(),
         technologies: z.array(z.string()),
         order: z.number().optional(),
+        githubUrl: z.string().optional(),
+        demoUrl: z.string().optional(),
     }),
 });
 

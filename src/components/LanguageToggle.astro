@@ -1,0 +1,18 @@
+---
+import { getLangFromUrl } from "../i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+
+const baseDir = lang === "en" ? "/" : "/en/";
+const currentPath =
+    Astro.url.pathname.replace(/^\/en/, "").replace(/\/$/, "") || "/";
+const targetUrl = lang === "en" ? currentPath : `/en${currentPath}`;
+---
+
+<a
+    href={targetUrl}
+    class="fixed top-6 left-6 z-50 flex items-center justify-center w-12 h-12 bg-slate-800/80 backdrop-blur-md rounded-full border border-sky-500/30 text-sky-400 font-bold hover:bg-slate-700 hover:text-white transition-all shadow-[0_0_15px_rgba(56,189,248,0.4)] hover:shadow-[0_0_25px_rgba(56,189,248,0.6)] animate-fade-in-up"
+    aria-label="Toggle language"
+>
+    {lang === "es" ? "EN" : "ES"}
+</a>
