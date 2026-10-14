@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const SUGGESTED_QUESTIONS = [
     '💼 Resumen de experiencia',
@@ -8,9 +7,10 @@ const SUGGESTED_QUESTIONS = [
     '📫 ¿Cómo contactarlo?'
 ];
 
-const SYSTEM_PROMPT = 'Eres el Agente de IA de José Antonio Chi May. Responde de forma breve, profesional y amigable (máximo 2 párrafos). Eres directo. Información de José: Ingeniero en Sistemas Computacionales (Tec de Mérida). Software Engineer, Full Stack (Java & React) y AI Developer. Experiencia: Operaciones TI en Galletas Dondé (SAP HANA, ADV Web con Java MVC y PostgreSQL, migración de Sistema Envíos con C#, .NET y SQL Server). Antes, Programador Java Jr en EFISYS (Core SAFI, Java 1.8). Proyectos: E-commerce Algorithm (React, Spring Boot). Skills: Python, LLMs, RAG, Astro.js. Si preguntan algo fuera de su perfil, desvía a su experiencia.';
+// El SYSTEM_PROMPT y la llamada al modelo viven en la Lambda (aws/chatbot-lambda)
+const CHAT_API_URL = import.meta.env.PUBLIC_CHAT_API_URL;
 
-type Role = 'user' | 'model';
+type Role = 'user' | 'assistant';
 
 interface Message {
     role: Role;
@@ -20,7 +20,7 @@ interface Message {
 export default function AIChatbot() {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
-        { role: 'model', text: '¡Hola! Soy el asistente virtual de José Antonio. ¿Qué te gustaría saber sobre su experiencia como Full Stack o AI Developer?' }
+        { role: 'assistant', text: '¡Hola! Soy el asistente virtual de José Antonio. ¿Qué te gustaría saber sobre su experiencia como Full Stack o AI Developer?' }
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -52,30 +52,24 @@ export default function AIChatbot() {
         setIsLoading(true);
 
         try {
-            // Initialize the client
-            const genAI = new GoogleGenerativeAI(import.meta.env.PUBLIC_GOOGLE_API_KEY);
-
-            // Configure the model
-            const model = genAI.getGenerativeModel({
-                model: 'gemini-2.5-flash',
-                systemInstruction: SYSTEM_PROMPT
+            // Send the user's message con todo el contexto a la Lambda
+            const response = await fetch(CHAT_API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messages: newMessages })
             });
 
-            // Formatear el historial completo de mensajes para el SDK de Gemini
-            const formattedContents = newMessages.map(msg => ({
-                role: msg.role,
-                parts: [{ text: msg.text }]
-            }));
+            if (!response.ok) {
+                throw new Error(`Chat API respondió ${response.status}`);
+            }
 
-            // Send the user's message con todo el contexto
-            const result = await model.generateContent({ contents: formattedContents });
-            const responseText = result.response.text();
+            const data: { text: string } = await response.json();
 
             // Add the AI's response
-            setMessages(prev => [...prev, { role: 'model', text: responseText }]);
+            setMessages(prev => [...prev, { role: 'assistant', text: data.text }]);
         } catch (error) {
-            console.error('Error enviando mensaje a Gemini:', error);
-            setMessages(prev => [...prev, { role: 'model', text: 'Oops, ocurrió un error resolviendo el mensaje.' }]);
+            console.error('Error enviando mensaje al chat:', error);
+            setMessages(prev => [...prev, { role: 'assistant', text: 'Oops, ocurrió un error resolviendo el mensaje.' }]);
         } finally {
             setIsLoading(false);
         }
