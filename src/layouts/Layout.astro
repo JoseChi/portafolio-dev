@@ -58,6 +58,6 @@ const lang = getLangFromUrl(Astro.url);
       const hiddenElements = document.querySelectorAll(".reveal");
       hiddenElements.forEach((el) => observer.observe(el));
     </script>
-    <AIChatbot client:load />
+    <AIChatbot client:load lang={lang} />
   </body>
 </html>

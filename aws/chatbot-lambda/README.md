@@ -3,7 +3,7 @@
 Backend del chatbot del portfolio. El navegador hace `POST` a un HTTP API de API Gateway, que invoca esta Lambda, que a su vez llama a Claude en Bedrock con `ConverseCommand`.
 
 ```
-AIChatbot.tsx  ──POST {messages}──▶  API Gateway (HTTP API)  ──▶  Lambda  ──▶  Bedrock (Claude Haiku 4.5)
+AIChatbot.tsx  ──POST {messages, lang}──▶  API Gateway (HTTP API)  ──▶  Lambda  ──▶  Bedrock (Claude Haiku 4.5)
 ```
 
 ## Contrato
@@ -11,10 +11,12 @@ AIChatbot.tsx  ──POST {messages}──▶  API Gateway (HTTP API)  ──▶
 **Request** `POST /chat`
 
 ```json
-{ "messages": [{ "role": "user", "text": "Hola" }] }
+{ "messages": [{ "role": "user", "text": "Hola" }], "lang": "es" }
 ```
 
 `role` es `user` o `assistant`. La Lambda usa solo los últimos 10 mensajes, recorta cada uno a 1000 caracteres y descarta los mensajes del asistente que queden al inicio (Bedrock exige empezar con `user`).
+
+`lang` es opcional: `es` o `en`, según el idioma de la página. Cualquier otro valor, o si no viene, se trata como `es`. Define el idioma por defecto de la respuesta; si el visitante escribe en otro idioma, el modelo responde en ese idioma.
 
 **Response** `200`
 
