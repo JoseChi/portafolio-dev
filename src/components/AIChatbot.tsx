@@ -1,11 +1,37 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const SUGGESTED_QUESTIONS = [
-    '💼 Resumen de experiencia',
-    '🚀 Proyectos destacados',
-    '💻 Stack tecnológico',
-    '📫 ¿Cómo contactarlo?'
-];
+type Lang = 'es' | 'en';
+
+const CHAT_TEXT = {
+    es: {
+        greeting: '¡Hola! Soy el asistente virtual de José Antonio. ¿Qué te gustaría saber sobre su experiencia como Full Stack o AI Developer?',
+        suggestedQuestions: [
+            '💼 Resumen de experiencia',
+            '🚀 Proyectos destacados',
+            '💻 Stack tecnológico',
+            '📫 ¿Cómo contactarlo?'
+        ],
+        title: 'Habla con mi Agente de IA',
+        callout: '¡Hola! 👋 Soy la IA de José. ¿Hablamos?',
+        placeholder: 'Escribe un mensaje...',
+        typing: 'Escribiendo...',
+        error: 'Oops, ocurrió un error resolviendo el mensaje.'
+    },
+    en: {
+        greeting: "Hi! I'm José Antonio's virtual assistant. What would you like to know about his experience as a Full Stack or AI Developer?",
+        suggestedQuestions: [
+            '💼 Experience summary',
+            '🚀 Featured projects',
+            '💻 Tech stack',
+            '📫 How can I contact him?'
+        ],
+        title: 'Talk to my AI Agent',
+        callout: "Hi! 👋 I'm José's AI. Want to chat?",
+        placeholder: 'Type a message...',
+        typing: 'Typing...',
+        error: 'Oops, something went wrong processing your message.'
+    }
+};
 
 // El SYSTEM_PROMPT y la llamada al modelo viven en la Lambda (aws/chatbot-lambda)
 const CHAT_API_URL = import.meta.env.PUBLIC_CHAT_API_URL;
@@ -17,10 +43,11 @@ interface Message {
     text: string;
 }
 
-export default function AIChatbot() {
+export default function AIChatbot({ lang = 'es' }: { lang?: Lang }) {
+    const t = CHAT_TEXT[lang] ?? CHAT_TEXT.es;
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
-        { role: 'assistant', text: '¡Hola! Soy el asistente virtual de José Antonio. ¿Qué te gustaría saber sobre su experiencia como Full Stack o AI Developer?' }
+        { role: 'assistant', text: t.greeting }
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +83,7 @@ export default function AIChatbot() {
             const response = await fetch(CHAT_API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: newMessages })
+                body: JSON.stringify({ messages: newMessages, lang })
             });
 
             if (!response.ok) {
@@ -69,7 +96,7 @@ export default function AIChatbot() {
             setMessages(prev => [...prev, { role: 'assistant', text: data.text }]);
         } catch (error) {
             console.error('Error enviando mensaje al chat:', error);
-            setMessages(prev => [...prev, { role: 'assistant', text: 'Oops, ocurrió un error resolviendo el mensaje.' }]);
+            setMessages(prev => [...prev, { role: 'assistant', text: t.error }]);
         } finally {
             setIsLoading(false);
         }
@@ -91,7 +118,7 @@ export default function AIChatbot() {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
                             </span>
-                            <h3 className="font-bold text-slate-100 text-sm">Habla con mi Agente de IA</h3>
+                            <h3 className="font-bold text-slate-100 text-sm">{t.title}</h3>
                         </div>
                         <button
                             onClick={() => setIsOpen(false)}
@@ -116,7 +143,7 @@ export default function AIChatbot() {
                         ))}
                         {messages.length === 1 && (
                             <div className="grid grid-cols-1 gap-3 mt-4 px-2">
-                                {SUGGESTED_QUESTIONS.map((q, i) => (
+                                {t.suggestedQuestions.map((q, i) => (
                                     <button
                                         key={i}
                                         onClick={() => handleSuggestedClick(q)}
@@ -129,7 +156,7 @@ export default function AIChatbot() {
                         )}
                         {isLoading && (
                             <div className="bg-slate-800 text-slate-400 p-3 rounded-2xl rounded-tl-sm self-start border border-slate-700/50 text-sm italic shadow-sm w-fit">
-                                Escribiendo...
+                                {t.typing}
                             </div>
                         )}
                         <div ref={messagesEndRef} />
@@ -142,7 +169,7 @@ export default function AIChatbot() {
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             disabled={isLoading}
-                            placeholder="Escribe un mensaje..."
+                            placeholder={t.placeholder}
                             className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all placeholder:text-slate-500 disabled:opacity-50"
                         />
                         <button
@@ -160,7 +187,7 @@ export default function AIChatbot() {
             {!isOpen && (
                 <div className="fixed bottom-24 right-10 z-50 animate-float">
                     <div className="bg-blue-600 text-white text-sm font-medium px-4 py-3 rounded-2xl rounded-br-sm shadow-[0_4px_20px_rgba(56,189,248,0.4)] border border-sky-500/50 whitespace-nowrap">
-                        ¡Hola! 👋 Soy la IA de José. ¿Hablamos?
+                        {t.callout}
                     </div>
                 </div>
             )}
